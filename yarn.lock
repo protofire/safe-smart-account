@@ -1055,11 +1055,11 @@ __metadata:
   resolution: "@gnosis.pm/safe-contracts@workspace:."
   dependencies:
     "@gnosis.pm/mock-contract": "npm:^4.0.0"
-    "@gnosis.pm/safe-singleton-factory": "npm:^1.0.3"
     "@nomiclabs/hardhat-ethers": "npm:^2.0.0"
     "@nomiclabs/hardhat-etherscan": "npm:^2.1.0"
     "@nomiclabs/hardhat-waffle": "npm:^2.0.0"
     "@openzeppelin/contracts": "npm:^3.4.0"
+    "@safe-fndn/safe-singleton-factory": "https://github.com/safe-fndn/safe-singleton-factory.git#main"
     "@types/chai": "npm:^4.2.14"
     "@types/mocha": "npm:^8.2.0"
     "@types/node": "npm:^14.14.21"
@@ -1093,20 +1093,6 @@ __metadata:
     ethers: ^5.1.4
   languageName: unknown
   linkType: soft
-
-"@gnosis.pm/safe-singleton-factory@npm:^1.0.3":
-  version: 1.0.3
-  resolution: "@gnosis.pm/safe-singleton-factory@npm:1.0.3"
-  dependencies:
-    "@types/yargs": "npm:^15.0.10"
-    argv: "npm:^0.0.2"
-    axios: "npm:^0.21.1"
-    dotenv: "npm:^8.0.0"
-    ethers: "npm:^5.1.4"
-    yargs: "npm:^16.1.1"
-  checksum: 10c0/871169dc21efc566aeadc72ae2cad12bc4cbd6c3e33d76a4f37b27a58e1ac96fe36d713581fde9a9aa5b90adf7ae30bd0cdd0ce3c74c3e1f927a3ccb47cb26b9
-  languageName: node
-  linkType: hard
 
 "@isaacs/cliui@npm:^8.0.2":
   version: 8.0.2
@@ -1278,6 +1264,13 @@ __metadata:
     path-browserify: "npm:^1.0.0"
     url: "npm:^0.11.0"
   checksum: 10c0/efdb3996ebaac05702edfa35ff4a9f53e4ef141e91ea534ce84becc65371638091b0c2e912f020ee5b654fb32a60b29591a3ea769af9ed70b9f8039bd278f571
+  languageName: node
+  linkType: hard
+
+"@safe-fndn/safe-singleton-factory@https://github.com/safe-fndn/safe-singleton-factory.git#main":
+  version: 2.0.0
+  resolution: "@safe-fndn/safe-singleton-factory@https://github.com/safe-fndn/safe-singleton-factory.git#commit=4947415ab74f6c842d5ca6dc0af69de27176043f"
+  checksum: 10c0/b07a7176ab9433c6b66cb837e9ee582e8ea5d29d967489fbfadd2e322997d96748b98bb0d764e2328b0537ec84466e82597fcfb7b524e916c6450c490faea564
   languageName: node
   linkType: hard
 
