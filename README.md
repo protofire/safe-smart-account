@@ -7,6 +7,18 @@ Gnosis Safe Contracts
 
 Usage
 -----
+### Install and use the active LTS version of Node.js:
+```bash
+nvm use
+```
+
+### Install the latest stable version of yarn:
+```bash
+corepack enable
+corepack install --global yarn@stable
+yarn --version
+```
+
 ### Install requirements with yarn:
 
 ```bash

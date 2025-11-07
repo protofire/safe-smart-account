@@ -82,5 +82,6 @@
   },
   "peerDependencies": {
     "ethers": "^5.1.4"
-  }
+  },
+  "packageManager": "yarn@4.11.0"
 }
