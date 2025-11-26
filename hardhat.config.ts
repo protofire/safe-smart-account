@@ -13,12 +13,15 @@ import { BigNumber } from "@ethersproject/bignumber";
 import { getSingletonFactoryInfo } from "@safe-fndn/safe-singleton-factory";
 import env from "env-var";
 
+const DEFAULT_MNEMONIC =
+  "candy maple cake sugar pudding cream honey rich smooth crumble sweet treat";
+
 // Deployer account
-const MNEMONIC_PHRASE = env.get("MNEMONIC").asString();
+const MNEMONIC_PHRASE = env.get("MNEMONIC").default(DEFAULT_MNEMONIC).asString();
 const PRIVATE_KEY = env.get("PK").required(!MNEMONIC_PHRASE).asString();
 
 // Custom network
-const RPC_NODE_URL: string = env.get("NODE_URL").required().asUrlString();
+const RPC_NODE_URL = env.get("NODE_URL").asUrlString();
 
 // Custom deployment
 const REPLAY_PROTECTION = env.get("CUSTOM_DETERMINISTIC_DEPLOYMENT").asBool();
@@ -28,8 +31,8 @@ const SOLIDITY_VERSION = env.get("SOLIDITY_VERSION").default("0.7.6").asString()
 const SOLIDITY_SETTINGS = env.get("SOLIDITY_SETTINGS").asJson();
 
 // Contract Verification API
-const ETHERSCAN_API_URL = env.get("ETHERSCAN_API_URL").required().asString();
-const ETHERSCAN_API_KEY = env.get("ETHERSCAN_API_KEY").default("").asString();
+const ETHERSCAN_API_URL = env.get("ETHERSCAN_API_URL").asString();
+const ETHERSCAN_API_KEY = env.get("ETHERSCAN_API_KEY").asString();
 
 if (!PRIVATE_KEY && !MNEMONIC_PHRASE) {
   throw new Error("Please set a private key or a mnemonic phrase");
@@ -55,16 +58,6 @@ const userConfig: HardhatUserConfig = {
       blockGasLimit: 100000000,
       gas: 100000000,
     },
-    custom: {
-      url: RPC_NODE_URL,
-      accounts: PRIVATE_KEY ? [PRIVATE_KEY] : { mnemonic: `${MNEMONIC_PHRASE}` },
-      verify: {
-        etherscan: {
-          apiUrl: ETHERSCAN_API_URL,
-          apiKey: ETHERSCAN_API_KEY,
-        },
-      },
-    },
   },
   namedAccounts: {
     deployer: 0,
@@ -73,6 +66,19 @@ const userConfig: HardhatUserConfig = {
     timeout: 2000000,
   },
 };
+
+if (RPC_NODE_URL && userConfig.networks) {
+  userConfig.networks.custom = {
+    url: RPC_NODE_URL,
+    accounts: PRIVATE_KEY ? [PRIVATE_KEY] : { mnemonic: `${MNEMONIC_PHRASE}` },
+    verify: {
+      etherscan: {
+        apiUrl: ETHERSCAN_API_URL,
+        apiKey: ETHERSCAN_API_KEY,
+      },
+    },
+  };
+}
 
 if (REPLAY_PROTECTION) {
   userConfig.deterministicDeployment = (network: string) => {
