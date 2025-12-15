@@ -67,8 +67,8 @@ const userConfig: HardhatUserConfig = {
   },
 };
 
-if (RPC_NODE_URL && userConfig.networks) {
-  userConfig.networks.custom = {
+if (RPC_NODE_URL) {
+  userConfig.networks!.custom = {
     url: RPC_NODE_URL,
     accounts: PRIVATE_KEY ? [PRIVATE_KEY] : { mnemonic: `${MNEMONIC_PHRASE}` },
     verify: {
@@ -82,18 +82,20 @@ if (RPC_NODE_URL && userConfig.networks) {
 
 if (REPLAY_PROTECTION) {
   userConfig.deterministicDeployment = (network: string) => {
-    const chainId = parseInt(network);
-    const info = getSingletonFactoryInfo(chainId);
+    const info = getSingletonFactoryInfo(parseInt(network));
 
-    if (!info) return undefined;
-
-    const funding = BigNumber.from(info.gasLimit).mul(BigNumber.from(info.gasPrice)).toString();
+    if (!info) {
+      throw new Error(`
+        Safe factory not found for network ${network}. You can request a new deployment at https://github.com/safe-global/safe-singleton-factory.
+        For more information, see https://github.com/safe-global/safe-smart-account#replay-protection-eip-155
+      `);
+    }
 
     return {
       factory: info.address,
       deployer: info.signerAddress,
+      funding: BigNumber.from(info.gasLimit).mul(BigNumber.from(info.gasPrice)).toString(),
       signedTx: info.transaction,
-      funding,
     };
   };
 }
